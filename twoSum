@@ -1,0 +1,15 @@
+ vector<int> twoSum(vector<int>& nums, int target) {
+        map<int,int> sorted;
+        int complement;
+        map<int,int>::iterator itr;
+        int len=nums.size();
+        for(int i=0;i<len;i++)
+        {
+            complement=target-nums[i];
+            itr=(sorted.find(complement));
+            if(itr!=sorted.end())
+                return{itr->second,i};
+            sorted.insert(pair(nums[i],i));
+        }
+        return {0,0};
+      }
