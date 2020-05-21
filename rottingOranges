@@ -1,0 +1,75 @@
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        int nums_1=0;
+        int min=0;
+        queue<pair<int,int>> q;
+        for(int i=0;i<grid.size();i++)
+            for(int j=0;j<grid[i].size();j++)
+            {
+                if(grid[i][j]==2)
+                    q.push(pair(i,j));
+                else
+                if(grid[i][j]==1)
+                    nums_1++;
+            }
+           
+        
+        if(nums_1==0)
+            return 0;
+      
+        q.push(pair(-100,-100));
+        pair<int,int> temp;
+        int converted=0;
+        int depth=0;
+        while(q.size()!=0)
+        {
+            if(q.front().first==-100)
+            {
+                depth++;
+                q.pop();
+                if(q.size()!=0)
+                    q.push(pair(-100,-100));
+                continue;
+            }
+
+            temp=q.front();
+            q.pop();
+        
+            if(temp.first-1>=0 && temp.second<grid[0].size())
+                if(grid[temp.first-1][temp.second]==1)
+                {
+                    grid[temp.first-1][temp.second]=2;
+                    converted++;
+                    q.push(pair(temp.first-1,temp.second));
+                }
+             if(temp.first+1<grid.size() && temp.second<grid[0].size())
+                if(grid[temp.first+1][temp.second]==1)
+                {
+                    grid[temp.first+1][temp.second]=2;
+                    converted++;
+                    q.push(pair(temp.first+1,temp.second));
+                }
+             if(temp.first>=0 && temp.second+1<grid[0].size())
+                if(grid[temp.first][temp.second+1]==1)
+                {
+                    grid[temp.first][temp.second+1]=2;
+                    converted++;
+                    q.push(pair(temp.first,temp.second+1));
+                }
+             if(temp.first>=0 && temp.second-1>=0)
+                if(grid[temp.first][temp.second-1]==1)
+                {
+                    grid[temp.first][temp.second-1]=2;
+                    converted++;
+                    q.push(pair(temp.first,temp.second-1));
+                }
+            
+        }
+        
+        if(converted!=nums_1)
+                return -1;
+     
+        return depth-1;
+    }
+};
