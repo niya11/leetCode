@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int K) {
+        if(points.size()==0 || K<=0)
+        {
+            return {};
+        }
+        multimap <int,vector<int>> mymap;
+        for(int i=0;i<points.size();i++)
+        {
+            int dis=( ( (points[i][0])*(points[i][0]) ) + ( (points[i][1])*(points[i][1]) ));
+            mymap.insert(pair(dis,points[i]));
+        }
+        vector<vector<int>> ans;       
+        multimap <int,vector<int>>::iterator itr;
+         itr=mymap.begin();
+         for(int i=0;i<K;i++)
+        {
+            ans.push_back(itr->second);
+            itr++;               
+        }
+        return ans;
+    }
+};
