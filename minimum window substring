@@ -1,0 +1,68 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+       if(s.size()==0 || t.size()==0)
+           return "";
+       
+        map<char,int> checker;
+        for(int i=0;i<t.size();i++)
+        {
+            if(checker.find(t[i])==checker.end())
+                 checker.insert(pair(t[i],1));
+            else
+            {
+                checker.find(t[i])->second++;
+            }
+        }
+        
+        map<int,char> mapper;
+       
+        for(int j=0;j<s.size();j++)
+        {
+            if(checker.find(s[j])!=checker.end())
+            {
+                mapper.insert(pair(j,s[j]));
+            }
+        }
+       
+        
+       
+        
+        int minn=99999;
+        string ans="";
+        map<int,char>::iterator itr=mapper.begin();
+        map<int,char>::iterator starter=mapper.begin();
+        int required=checker.size();
+        int formed=0;
+        int count;
+        while(itr!=mapper.end())
+        {
+          count=--(checker.find(itr->second)->second);   
+          if(count==0)
+              formed++;
+            
+          while(itr->first>=starter->first  && formed==required)
+          {
+              if(((itr->first)-(starter->first)+1)<minn)
+              {
+                  minn=itr->first-starter->first+1;
+                  if(minn==1)
+                      ans=s[starter->first];
+                  else
+                      ans=s.substr(starter->first, minn);
+              }
+              count=++(checker.find(starter->second)->second);
+              if(count>0)
+                 formed--;
+             
+                 starter++;
+          }
+            
+          itr++;
+
+        }
+       
+        
+        return ans;
+    }
+};
