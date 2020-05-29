@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int romanToInt(string s) {
+        if(s.size()==0)
+            return 0;
+        
+        int ans=0;
+        map<char,int> values;
+        values.insert(pair('I',1));
+        values.insert(pair('V',5));
+        values.insert(pair('X',10));
+        values.insert(pair('L',50));
+        values.insert(pair('C',100));
+        values.insert(pair('D',500));
+        values.insert(pair('M',1000));
+        
+        int curr;
+        int next;
+        int i=0;
+        while(i<s.size())
+        {
+            curr=values.find(s[i])->second;
+            if(i!=s.size()-1)
+            {
+                next=values.find(s[i+1])->second;
+                if(curr<next)
+                {
+                    ans+=next-curr;
+                    i++;
+                }
+                else
+                    ans+=curr;
+            }    
+            else
+                ans+=curr;
+            i++;
+            
+        }
+
+        return ans;
+    }
+};
