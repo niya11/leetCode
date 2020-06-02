@@ -1,0 +1,82 @@
+class Solution {
+public:
+    string helper(int num1,map<int,string> &dict)
+    {
+        if(num1<=20 || (num1<100 && num1%10==0))
+            return(dict.find(num1)->second);
+        
+        string str1;
+       if((num1%100)>20 && (num1%100)%10!=0)
+            str1=dict.find(num1%100-num1%10)->second+" "+dict.find(num1%10)->second;
+        else
+            if(num1%100>0)
+                str1=dict.find(num1%100)->second;
+        
+        if((num1-num1%100)>=100)
+        {
+            if(num1%100!=0)
+                str1=dict.find((num1-num1%100)/100)->second +" Hundred "+str1;
+            else
+                str1=dict.find((num1-num1%100)/100)->second +" Hundred";
+        }                             
+        return str1;
+    }
+    
+    
+    string numberToWords(int num) {
+        map<int,string> dict;
+        dict.insert(pair(0,"Zero"));
+        dict.insert(pair(1,"One"));
+        dict.insert(pair(2,"Two"));
+        dict.insert(pair(3,"Three"));
+        dict.insert(pair(4,"Four"));
+        dict.insert(pair(5,"Five"));
+        dict.insert(pair(6,"Six"));
+        dict.insert(pair(7,"Seven"));
+        dict.insert(pair(8,"Eight"));
+        dict.insert(pair(9,"Nine"));
+        dict.insert(pair(10,"Ten"));
+        dict.insert(pair(11,"Eleven"));
+        dict.insert(pair(12,"Twelve"));
+        dict.insert(pair(13,"Thirteen"));
+        dict.insert(pair(14,"Fourteen"));
+        dict.insert(pair(15,"Fifteen"));
+        dict.insert(pair(16,"Sixteen"));
+        dict.insert(pair(17,"Seventeen"));
+        dict.insert(pair(18,"Eighteen"));
+        dict.insert(pair(19,"Nineteen"));
+        dict.insert(pair(20,"Twenty"));
+        dict.insert(pair(30,"Thirty"));
+        dict.insert(pair(40,"Forty"));
+        dict.insert(pair(50,"Fifty"));
+        dict.insert(pair(60,"Sixty"));
+        dict.insert(pair(70,"Seventy"));
+        dict.insert(pair(80,"Eighty"));
+        dict.insert(pair(90,"Ninety"));
+        dict.insert(pair(100,"Hundred"));
+        dict.insert(pair(1000,"Thousand"));
+        dict.insert(pair(1000000,"Million"));
+        dict.insert(pair(1000000000,"Billion"));
+        
+        if(num<=20)
+            return dict.find(num)->second;
+        
+        int count=0;
+        string str="";
+        
+        while(num>0)
+        {
+            if(num%1000>0)
+                str=helper(num%1000,dict)+str;
+            num=num/1000;
+            count++;
+            if(num>0 && num%1000!=0)
+                if(str!="")
+                    str=" "+dict.find(pow(10,3*count))->second+" "+str;
+                else
+                    str=" "+dict.find(pow(10,3*count))->second;
+        }
+         
+        return str;
+    }
+};
