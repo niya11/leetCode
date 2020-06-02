@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        if(s.size()==0)
+            return true;
+        if(s.size()%2!=0)
+            return false;
+        
+        int p1=s.size()-1;
+        int p2=s.size()-1;
+        map<char,char> open{  {'[',']'},  {'{','}'},  {'(',')'}};
+        set<char> close{']','}',')'};  
+        stack<char> st;
+        for(int i=0;i<s.size();i++)
+        {
+            if(open.find(s[i])!=open.end())
+            {
+                st.push(s[i]);
+            }
+            else
+            {
+                if(st.size()==0 && close.find(s[i])!=close.end())
+                    return false;
+                if(open.find(st.top())->second!=(s[i]))
+                    return false;
+                else
+                    st.pop();
+            }
+        }
+        
+        if(st.size()!=0)
+            return false;
+        return true;
+        
+       
+        
+        
+    }
+};
