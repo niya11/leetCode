@@ -1,0 +1,47 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if(head==NULL)
+            return NULL;
+        
+        Node* old=head;
+        Node* newNode=new Node(old->val);
+        
+        map<Node*, Node*> mapper;
+        mapper.insert(pair(old,newNode));
+        while(old!=NULL)
+        {
+            if(old->next!=NULL && mapper.find(old->next)==mapper.end())
+               mapper.insert(pair(old->next,new Node(old->next->val)));
+            
+                
+             if(old->random!=NULL && mapper.find(old->random)==mapper.end())
+                   mapper.insert(pair(old->random,new Node(old->random->val)));
+            
+            if(old->next!=NULL)
+                newNode->next=mapper.find(old->next)->second;
+            
+            if(old->random!=NULL)   
+               newNode->random=mapper.find(old->random)->second;
+            old=old->next;
+            newNode=newNode->next;
+        }
+        return mapper.find(head)->second;
+    }
+};
