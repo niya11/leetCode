@@ -5,8 +5,7 @@ public:
             return "";
      int a=0;
      int j=0;
-     set<string>ans; 
-     int max=0;
+     string max="";
      for(int i=0;i<d.size();i++)
      {
         a=0;
@@ -19,26 +18,13 @@ public:
         }
         if(j==d[i].size())
         {
-            if(j>max)
-            {
-                max=j;
-                ans.clear();
-                ans.insert(d[i]);
-            }
-            else
-            {
-                if(j==max)
-                {
-                    ans.insert(d[i]);
-                }
-            }
+            if(d[i].size() > max.size() || (d[i].size() == max.size() && d[i]<max))
+                max=d[i];
         } 
          
      }
-        if(ans.size()==0)
-            return "";
-        else
-            return *ans.begin();
+       
+        return max;
         
     }
 };
