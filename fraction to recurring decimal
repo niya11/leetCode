@@ -1,0 +1,69 @@
+class Solution {
+public:
+    string fractionToDecimal(long int numerator, long int denominator) {
+        if(numerator==0)
+            return "0";
+        string ans;
+        string r="";
+        long int d;
+        set<long int> mapper;
+        
+        if(numerator*denominator<0)
+            ans+="-";
+        
+        numerator=abs(numerator);
+        denominator=abs(denominator);
+        ans+=to_string(numerator/denominator);
+        
+        d=numerator%denominator;
+        if(d==0)
+            return ans;
+        ans+=".";
+        
+      
+        int flag=0;
+        long int org=d;
+        vector<long int> v;
+        long int rep;
+        d*=10;
+        while(d!=0)
+        {
+                 
+            if(mapper.find(d)!=mapper.end())
+            {
+                flag=1;
+                rep=d;
+                v.push_back(d);
+                break;
+            }
+            else
+            {
+               v.push_back(d);
+               mapper.insert(d);
+            }
+            
+            d=(d%denominator)*10;
+           
+        }
+        
+        
+        if(flag==1)
+        { 
+           for( int i=0;i<v.size()-1;i++)
+            {
+               if(v[i]!=rep)
+                 ans+=to_string(v[i]/denominator); 
+               else
+                 ans+="("+to_string(v[i]/denominator);  
+            }
+            ans+=")";
+        }
+        else
+        {
+            for( int i=0;i<v.size();i++)
+              ans+=to_string(v[i]/denominator);   
+        }
+       
+        return ans;
+    }
+};
