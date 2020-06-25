@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int shortestSubarray(vector<int>& A, int K) {
+        int ans=INT_MAX;
+        vector<long> sum(A.size()+1);
+        sum[0]=0;
+        for(int i=0;i<A.size();i++)
+            sum[i+1]=sum[i]+(long)A[i];
+        
+        deque<int> mono;
+        for(int y=0;y<sum.size();y++)
+        {
+            while(!mono.empty() && sum[y]<=sum[mono.back()])
+                mono.pop_back();
+            while(!mono.empty() && sum[y]>=sum[mono.front()]+K)
+            {
+                if(y-mono.front()<ans)
+                    ans=y-mono.front();
+                
+                mono.pop_front();
+                
+            }
+            
+            mono.push_back(y);
+        }
+        return ans<INT_MAX?ans:-1;
+    }
+};
+
