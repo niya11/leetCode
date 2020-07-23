@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int deleteAndEarn(vector<int>& nums) {
+        map<int,int> mapper;
+        for(int i:nums)
+            mapper[i]++;
+        
+        int avoid=0;
+        int use=0;
+        int prev=-1;
+        int maxx;
+        map<int,int>::iterator itr;
+        
+        for(itr=mapper.begin();itr!=mapper.end();itr++)
+        {
+            maxx=max(avoid,use);
+            if((itr->first)-1!=prev)
+                use=(itr->first)*(itr->second)+maxx;
+            else
+                use=(itr->first)*(itr->second)+avoid;
+            avoid=maxx;
+            prev=itr->first;
+        }
+        return max(avoid,use);
+    }
+};
