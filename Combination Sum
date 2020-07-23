@@ -1,0 +1,35 @@
+class Solution {
+public:
+    
+    void findCombinations(vector<int> &candidates,vector<vector<int>>& ans, vector<int> & combination, int target, int index)
+    {
+        if(target==0)
+        {
+            ans.push_back(combination);
+            return;
+        }
+        
+        for(int i=index;i<candidates.size();i++)
+        {
+            if(candidates[i]>target)
+                break;
+            
+            combination.push_back(candidates[i]);
+            findCombinations(candidates,ans,combination,(target-candidates[i]),i);
+            combination.pop_back();
+        }
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) 
+    {
+        if(candidates.size()==0)
+            return {};
+        vector<vector<int>> ans;
+        sort(candidates.begin(),candidates.end());
+        vector<int> combination;
+          
+        findCombinations(candidates,ans,combination,target,0);
+
+        return ans;
+        
+    }
+};
