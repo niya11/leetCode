@@ -1,0 +1,43 @@
+class Solution {
+public:
+    bool isPred(string &s1,string &s2)
+    {
+        int i=0;
+        int j=0;
+        while(i<s1.size()&&j<s2.size())
+        {
+            if(s1[i]==s2[j])
+                i++;
+            j++;
+            if(j-i>=2)
+                return false;
+        }
+        return true;
+    }
+    
+    int longestStrChain(vector<string>& words) {
+        if(words.size()<=1)
+            return words.size();
+        int maxx=1;
+        vector<vector<pair<string,int>>> mapper(16);
+        for(string &s:words)
+        {
+            mapper[s.size()-1].push_back({s,1});
+        }
+        
+        for(int i=mapper.size()-2;i>=0;i--)
+        {
+            for(auto &pair1:mapper[i])
+                for(auto &pair2:mapper[i+1])
+                {
+                    if(isPred(pair1.first,pair2.first))
+                    {
+                        pair1.second=max(pair1.second,pair2.second+1);
+                        maxx=max(pair1.second,maxx);   
+                    }
+                }
+        }
+        return maxx;
+        
+    }
+};
