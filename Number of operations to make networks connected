@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<int> parent;
+    int findParent(int x)
+    {
+        if(parent[x]==x)
+            return x;
+        else
+            return findParent(parent[x]);
+    }
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        if(connections.size()<n-1)
+            return -1;
+        
+        parent.resize(n);
+        for(int i=0;i<n;i++)
+            parent[i]=i;
+        
+        for(auto pairs:connections)
+        {
+            int x=findParent(pairs[0]);
+            int y=findParent(pairs[1]);
+            if(x!=y)
+                parent[y]=x;
+        }
+        
+        int ans=0;
+        for(int i=0;i<n;i++)
+        {
+            if(parent[i]==i)
+                ans++;
+        }
+        return ans-1;
+    }
+};
