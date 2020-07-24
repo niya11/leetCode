@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int minSetSize(vector<int>& arr) {
+        if(arr.size()<=2)
+            return 1;
+        map<int,int> mapper;
+        for(int i:arr)
+            mapper[i]++;
+        
+        if(mapper.size()==arr.size())
+            return mapper.size()/2;
+        else
+            if(mapper.size()==1)
+                return 1;
+        
+        multiset<int> ms;
+        for(auto itr=mapper.begin();itr!=mapper.end();itr++)
+            ms.insert(itr->second);    
+        
+        
+        int ans=0;
+        int sum=0;
+        for(auto itr=ms.rbegin();itr!=ms.rend();itr++)
+        {
+            sum+=*itr;
+            ans++;
+            if(sum>=(arr.size()/2))
+               break;
+        }
+        return ans;
+    }
+};
