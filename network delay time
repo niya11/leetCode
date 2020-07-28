@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int N, int K) {
+        unordered_map<int,vector<pair<int,int>>> graph;
+        vector<bool> visited(N+1);
+        
+        for(auto edge:times)
+            graph[edge[0]].push_back(make_pair(edge[1],edge[2]));  
+        
+        
+        auto cmp=[](const pair<int,int> &pair1, const pair<int,int>&pair2){
+            return pair2.second<pair1.second;
+        };
+        priority_queue<int, vector<pair<int,int>>,decltype(cmp)> heap(cmp);
+        heap.push(make_pair(K,0));
+        int res=0;
+        int count=0;
+        while(!heap.empty() && count!=N)
+        {
+            auto node=heap.top();
+            heap.pop();
+            if(!visited[node.first])
+            {
+                count++;
+                visited[node.first]=true;
+            }
+            res=node.second;
+            for(auto neighbor: graph[node.first])
+            {
+                if(!visited[neighbor.first])
+                    heap.push(make_pair(neighbor.first, node.second+neighbor.second));
+            }
+        }
+        
+        return count==N?res:-1;
+    }
+};
