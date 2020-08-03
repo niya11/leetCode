@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int minKBitFlips(vector<int>& A, int K) {
+        
+        vector<bool> needClose(A.size());
+        int ans=0, intervalCount=0;
+        for(int i=0;i<A.size();i++)
+        {
+            if(needClose[i])
+                intervalCount--;
+            
+            if((!A[i] && intervalCount%2==0)||(A[i] && intervalCount%2==1))
+            {
+                ans++;
+                intervalCount++;
+                if(i+K>A.size())
+                    return -1;
+                
+                if(i+K<A.size())
+                    needClose[i+K]=true;
+            }
+        }
+        return ans;
+    }
+};
