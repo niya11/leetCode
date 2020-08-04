@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int numOfWays(int n) {
+        long c2=6;
+        long c3=6;
+        int ans=0;
+        long mod=1e9+7;
+        for(int i=1;i<n;i++)
+        {
+            long temp=c2;
+            c2=(c2*3+c3*2)%mod;
+            c3=(c3*2+temp*2)%mod;
+        }
+        return (c2+c3)%mod;
+    }
+};
