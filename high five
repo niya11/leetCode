@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<vector<int>> highFive(vector<vector<int>>& items) {
+        if(items.size()<=1)
+            return items;
+        vector<vector<int>> ans;
+        
+        map<int,priority_queue<int>> mapper;
+        for(vector<int>v: items)
+            mapper[v[0]].push(v[1]);
+        
+        for(auto p:mapper)
+        {
+            int sum=0;
+            for(int i=0;i<5;i++)
+            {
+                sum+=p.second.top();
+                p.second.pop();
+            }
+            sum=sum/5;
+            vector<int> temp;
+            temp.push_back(p.first);
+            temp.push_back(sum);
+            ans.push_back(temp);
+        }
+        return ans;
+    }
+};
