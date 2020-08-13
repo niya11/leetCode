@@ -1,0 +1,100 @@
+class Solution {
+public:
+    
+    int find_lcm(int m,int n)
+    {
+        int lcm=0;
+        if(m>n)
+            lcm=m;
+        else
+            lcm=n;
+        if(m==n)
+            return m;
+        while(1)
+        {
+            if(lcm%m==0 && lcm%n==0)
+                return lcm;
+            lcm++;
+        }
+            return lcm;
+    }
+    
+    int find_gcd(int m, int n)
+    {
+        if(m==0)
+            return n;
+        if(n==0)
+            return m;
+        if(m==n)
+            return m;
+        if(m>n)
+           return find_gcd(m-n,n);
+        else
+            return find_gcd(m,n-m);
+    }
+    
+    string fractionAddition(string exp) {
+        
+        vector<int>nums;
+        vector<int>dens;
+        vector<char>ops;
+        
+        int i=0;
+       
+        while(i<exp.size())
+        {
+            int num=0;
+            int temp=1;
+            while(exp[i]!='/')
+            {
+                num*=10;
+                
+                if(exp[i]=='-')
+                    temp*=-1;
+                else
+                {
+                    temp*=(int)(exp[i]-'0');
+                    num+=temp;
+                }
+                i++;
+            }
+        
+            nums.push_back(num);
+            i++;
+            if((i+1)<exp.size() && exp[i+1]!='-' && exp[i+1]!='+')
+            {dens.push_back(10); i+=2;}
+            else
+            {dens.push_back(exp[i++]-'0');}
+            
+            if(i!=exp.size())
+                ops.push_back(exp[i]);
+             
+            i++;
+           
+        }
+        
+        int lcm=dens[0];
+        for(int j=1;j<dens.size();j++)
+            lcm=find_lcm(lcm,dens[j]);           
+     
+        int num=nums[0]*(lcm/dens[0]);
+        for(int j=1,k=0;k<ops.size();j++,k++)
+        {   
+            if(ops[k]=='+')
+                num+=(nums[j]*(lcm/dens[j]));
+            else
+                num-=(nums[j]*(lcm/dens[j]));
+          
+        }
+        
+        int gcd=find_gcd(abs(num),lcm);
+      
+        num/=gcd;
+        lcm/=gcd;
+        string ans="";
+        ans+=to_string(num);
+        ans+='/';
+        ans+=to_string(lcm);
+        return ans;
+    }
+};
