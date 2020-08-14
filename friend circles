@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& M) {
+        stack<int> st;
+        vector<int> visited(M.size(),0);
+        int count=0;
+        for(int i=0;i<M.size();i++)
+        {
+            if(visited[i]!=1)
+            {
+                st.push(i);
+                count++;
+               // cout<<"count: "<<count<<" i:"<<i<<endl;
+                while(st.size()!=0)
+                {
+                    int n=st.top();
+                    st.pop();
+                    visited[n]=1;
+                    
+                        for(int j=0;j<M.size();j++)
+                        {
+                            if(M[n][j]==1 && visited[j]==0 && n!=j)
+                                st.push(j);
+                        }
+                        
+                }
+            }
+            
+        }
+        return count;
+    }
+};
