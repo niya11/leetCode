@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int helper(vector<int>& rating)
+    {
+         int count=0;
+        for(int i=0;i<rating.size();i++)
+        {
+            int k=0;
+            int j=i+1;
+            int small_j=i+1;
+            int temp=rating[i];
+              while(j<rating.size())
+                {
+                    int l=j+1;
+                    if(rating[j]>temp)
+                     while(l<rating.size())
+                        {
+                            if(rating[l]>rating[j])
+                              k++;
+                            l++;
+                        }
+                  j++;
+                }
+            
+                if(k>0)
+                    count+=k;
+                k=0;
+        }
+        return count;
+    }
+    int numTeams(vector<int>& rating) {
+        if(rating.size()<3)
+            return 0;
+         int ans=helper(rating);
+         reverse(rating.begin(),rating.end());
+         ans+=helper(rating);
+        return ans;
+       
+    }
+};
