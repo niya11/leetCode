@@ -1,0 +1,75 @@
+class TrieNode
+{
+    public:
+    map<char,TrieNode*> children;
+    string word="";
+    
+};
+
+class Solution {
+public:
+    vector<string> result;
+    
+    void backtracking(vector<vector<char>>& board,int row,int col, TrieNode *parent)
+    {
+        char letter=board[row][col];
+        TrieNode *currNode=parent->children[letter];
+        
+        if(currNode!=NULL && currNode->word!="")
+        {
+            result.push_back(currNode->word);
+            currNode->word="";
+        }
+        board[row][col]='#';
+        
+        int rowOffset[]={-1, 0, 1, 0};
+        int colOffset[]={0, 1, 0, -1};
+        for(int i=0;i<4;i++)
+        {
+            int newRow=row+rowOffset[i];
+            int newCol=col+colOffset[i];
+            if(newRow<0 || newRow>=board.size() || newCol<0 ||newCol>=board[0].size())
+                continue;
+            if(currNode!=NULL && (currNode->children).find(board[newRow][newCol])!=currNode->children.end())
+                backtracking(board,newRow,newCol,currNode);
+        }
+        board[row][col]=letter;
+    }
+    
+    
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        //construct trie
+        TrieNode *root=new TrieNode();
+        for(string word:words)
+        {
+            TrieNode *node=root;  
+            for(char letter: word)
+            {
+                if(node->children.find(letter)!=node->children.end())
+                {
+                    node=node->children[letter];
+                }
+                else
+                {
+                    TrieNode *newNode= new TrieNode();
+                    node->children[letter]=newNode;
+                    node=newNode;
+                }
+            }
+            node->word=word;
+        }
+        
+        for(int i=0;i<board.size();i++)
+        {
+            for(int j=0;j<board[i].size();j++)
+            {
+                if(root->children.find(board[i][j])!=root->children.end())
+                {
+                    backtracking(board, i, j, root);
+                }
+            }
+        }
+        return result;
+        
+    }
+};
