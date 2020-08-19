@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int helper(vector<int>& coins,vector<int>& dp,int amount)
+    {
+        int rem=0;
+        
+        for(int coin:coins)
+        {
+           for(int i=1;i<=amount;i++)
+           {      
+               if(coin<=i) 
+                      dp[i]=min(dp[i],(1+dp[i-coin]));    
+            }
+        }
+        return dp[amount];
+    }
+    
+    int coinChange(vector<int>& coins, int amount) {
+        if(amount==0)
+            return 0;
+        vector<int> dp(amount+1,INT_MAX-amount);
+        dp[0]=0;
+        int ans=helper(coins,dp,amount);
+        return ans>amount?-1:ans;
+    }
+};
