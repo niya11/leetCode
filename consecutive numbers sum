@@ -1,0 +1,32 @@
+class Solution {
+public:
+    /*
+   
+    
+    n= (x+1)+(x+2)+..+(x+k)
+    =kx+(k(k+1)/2)
+    
+    n-(k*k+1/2)=kx----chec int
+    
+    n/k=x+(k+1)/2
+    x= n/k -(k+1)/2
+    n/k >(k+1)/2
+    2n>(k*k+k)
+    2n+1/4>(k+1/2)*(k+1/2)
+   
+   
+    sqrt(2n+1/4)-1/2>k---range
+    
+    
+    */
+    int consecutiveNumbersSum(int N) {
+        int count=0;
+        int range=(int)(sqrt(2*N+0.25)-0.5);
+        for(int i=1;i<=range;i++)
+        {
+            if((N-i*(i+1)/2)%i==0)
+                count++;
+        }
+        return count;
+    }
+};
