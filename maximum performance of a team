@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
+        priority_queue<int,vector<int>,greater<int>> heap;
+        vector<vector<int>> members;
+        vector<int> temp(2,0);
+        for(int i=0;i<n;i++)
+        {
+            temp[0]=speed[i];
+            temp[1]=efficiency[i];
+            members.push_back(temp);
+        }
+        sort(members.begin(),members.end(),compare);
+        long res=0;
+        long total=0;
+        //long minE;
+        for(int i=0;i<k;i++)
+        {
+            total+=members[i][0];
+            res=max(res,total*members[i][1]);
+            heap.push(members[i][0]);
+        }
+        for(int i=k;i<n;i++)
+        {
+            if(members[i][0]>heap.top())
+            {
+                total+=(-heap.top()+members[i][0]);
+                res=max(res,total*members[i][1]);
+                heap.pop();
+                heap.push(members[i][0]);
+            }
+        }
+        return (int)(res%1000000007);
+    }
+   
+    
+ static bool compare(vector<int> &v1, vector<int> &v2)
+    {
+        return v1[1]>v2[1];
+    }   
+};
