@@ -1,0 +1,48 @@
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        unordered_map<string,int> counter;
+        for(string s:words)
+            counter[s]++;
+        
+        map<int,vector<string>,greater <int>> choose;
+        unordered_map<string,int>::iterator itr;
+        map<int,vector<string>>::iterator temp;
+        for(itr=counter.begin();itr!=counter.end();itr++)
+        {
+            vector<string> str;
+            temp=choose.find(itr->second);
+            if(temp==choose.end())
+            {
+                str.push_back(itr->first);
+                choose[itr->second]=str;
+            }
+            else
+            {
+                str=temp->second;
+                str.push_back(itr->first);
+                choose[itr->second]=str;
+            }
+        }
+        vector<string> ans;
+        vector<string> v;
+        map<int,vector<string>,greater <int>>::iterator it=choose.begin();
+        for(it=choose.begin();it!=choose.end();it++)
+        {
+            v=it->second;
+            sort(v.begin(),v.end());
+            for(string s:v)
+            {
+                if(k==0)
+                    break;
+                ans.push_back(s);
+                k--;
+            }
+                if(k==0)
+                    break;
+        }
+        
+        return ans;
+        
+    }
+};
